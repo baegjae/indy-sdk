@@ -34,9 +34,8 @@ async function runFaber (options) {
   await demoCommon.initRustApiAndLogger(logLevel)
 
   if (options.comm === 'aries') {
-    provisionConfig.protocol_type = '2.0'
-    provisionConfig.communication_method = 'aries'
-    logger.info('Running with Aries VCX Enabled! Make sure VCX agency is configured to use protocol_type 2.0')
+    provisionConfig.protocol_type = '3.0'
+    logger.info('Running with Aries VCX Enabled! Make sure VCX agency is configured to use protocol_type 3.0')
   }
 
   if (options.postgresql) {
@@ -58,6 +57,11 @@ async function runFaber (options) {
 
   logger.info(`#1 Config used to provision agent in agency: ${JSON.stringify(provisionConfig, null, 2)}`)
   const agentProvision = await demoCommon.provisionAgentInAgency(provisionConfig)
+
+  // provision config
+  agentProvision.institution_name = 'faber'
+  agentProvision.institution_logo_url = 'http://robohash.org/234'
+  agentProvision.genesis_path = `${__dirname}/docker.txn`
 
   logger.info(`#2 Using following agent provision to initialize VCX ${JSON.stringify(agentProvision, null, 2)}`)
   await demoCommon.initVcxWithProvisionedAgentConfig(agentProvision)

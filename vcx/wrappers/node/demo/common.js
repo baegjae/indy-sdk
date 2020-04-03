@@ -32,9 +32,6 @@ async function provisionAgentInAgency (config) {
 }
 
 async function initVcxWithProvisionedAgentConfig (config) {
-  config.institution_name = 'faber'
-  config.institution_logo_url = 'http://robohash.org/234'
-  config.genesis_path = `${__dirname}/docker.txn`
   await initVcxWithConfig(JSON.stringify(config))
 }
 
