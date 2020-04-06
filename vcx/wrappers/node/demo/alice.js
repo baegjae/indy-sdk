@@ -32,9 +32,8 @@ async function runAlice (options) {
   await demoCommon.initRustApiAndLogger(logLevel)
 
   if (options.comm === 'aries') {
-    provisionConfig.protocol_type = '2.0'
-    provisionConfig.communication_method = 'aries'
-    logger.info('Running with Aries VCX Enabled! Make sure VCX agency is configured to use protocol_type 2.0')
+    provisionConfig.protocol_type = '3.0'
+    logger.info('Running with Aries VCX Enabled! Make sure VCX agency is configured to use protocol_type 3.0')
   }
   if (options.postgresql) {
     await demoCommon.loadPostgresPlugin(provisionConfig)
@@ -54,6 +53,11 @@ async function runAlice (options) {
 
   logger.info('#8 Provision an agent and wallet, get back configuration details')
   const config = await demoCommon.provisionAgentInAgency(provisionConfig)
+
+  // provision config
+  config.institution_name = 'alice'
+  config.institution_logo_url = 'http://robohash.org/345'
+  config.genesis_path = `${__dirname}/docker.txn`
 
   logger.info('#9 Initialize libvcx with new configuration')
   await demoCommon.initVcxWithProvisionedAgentConfig(config)
