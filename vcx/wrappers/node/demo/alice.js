@@ -9,6 +9,7 @@ const logger = require('./logger')
 const url = require('url')
 const isPortReachable = require('is-port-reachable')
 const { runScript } = require('./script-comon')
+const { vcxUpdateWebhookUrl } = require('./../dist/src/api/utils')
 
 const utime = Math.floor(new Date() / 1000)
 const optionalWebhook = 'http://localhost:7209/notifications/alice'
@@ -61,6 +62,8 @@ async function runAlice (options) {
 
   logger.info('#9 Initialize libvcx with new configuration')
   await demoCommon.initVcxWithProvisionedAgentConfig(config)
+
+  await vcxUpdateWebhookUrl({webhookUrl: optionalWebhook})
 
   logger.info('Input faber.py invitation details')
   const details = readlineSync.question('Enter your invite details: ')
